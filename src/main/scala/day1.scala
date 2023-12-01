@@ -5,14 +5,10 @@
 import utils.readFile
 
 def part1Solution(rawInput: String): Int =
-
-  def concat(x: Int, y: Int): Int =
-    x.toString().concat(y.toString()).toInt
-
   rawInput
     .split("\n")
     .map(_.filter(_.isDigit))
-    .map(line => concat(line.head.asDigit, line.last.asDigit))
+    .map(line => (line.head.asDigit * 10) + line.last.asDigit)
     .sum
 
 def part2Solution(rawInput: String): Int =
