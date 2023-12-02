@@ -13,9 +13,9 @@ enum Color:
 object Color:
   def fromStripped(stripped: String): Color =
     stripped match
-      case s"${n}blue"  => Blue(n.toInt)
-      case s"${n}green" => Green(n.toInt)
-      case s"${n}red"   => Red(n.toInt)
+      case s" ${n} blue"  => Blue(n.toInt)
+      case s" ${n} green" => Green(n.toInt)
+      case s" ${n} red"   => Red(n.toInt)
 
 case class Game(id: Int, r: Seq[Red], g: Seq[Green], b: Seq[Blue]):
   val isPossible: Boolean =
@@ -32,8 +32,7 @@ object Game:
 
   def fromRaw(rawInput: String): Iterator[Game] =
     rawInput.linesIterator
-      .map(_.drop(7))
-      .map(_.replaceAll(":| ", ""))
+      .map(_.split(":")(1))
       .map(_.split(",|;"))
       .map(_.map(Color.fromStripped(_)))
       .zipWithIndex
