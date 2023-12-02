@@ -12,11 +12,10 @@ enum Color:
 
 object Color:
   def fromStripped(stripped: String): Color =
-    val num = stripped.takeWhile(_.isDigit).toInt
     stripped match
-      case c if c.contains("red")   => Red(num)
-      case c if c.contains("blue")  => Blue(num)
-      case c if c.contains("green") => Green(num)
+      case s"${n}blue"  => Blue(n.toInt)
+      case s"${n}green" => Green(n.toInt)
+      case s"${n}red"   => Red(n.toInt)
 
 case class Game(id: Int, r: Seq[Red], g: Seq[Green], b: Seq[Blue]):
   val isPossible: Boolean =
@@ -55,7 +54,6 @@ def part2Solution(rawInput: String): Int =
     .sum
 
 @main def day2: Unit =
-
   val input = readFile("day2.txt")
     .getOrElse(throw new Exception("Failed to read file"))
 
