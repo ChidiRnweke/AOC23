@@ -20,11 +20,7 @@ object Color:
 
 case class Game(id: Int, r: Seq[Red], g: Seq[Green], b: Seq[Blue]):
   val isPossible: Boolean =
-    this match
-      case Game(_, r, g, b)
-          if r.forall(_.n < 13) && g.forall(_.n < 14) && b.forall(_.n < 15) =>
-        true
-      case _ => false
+    r.forall(_.n < 13) && b.forall(_.n < 15) && g.forall(_.n < 14)
 
   val minimumColors = (r.maxBy(_.n).n, g.maxBy(_.n).n, b.maxBy(_.n).n)
 
