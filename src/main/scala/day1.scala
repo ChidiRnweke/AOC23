@@ -1,7 +1,7 @@
 // scala-cli directives
 //> using resourceDir ../resources
 //> using file utils/utilities.scala
-
+package day1
 import utils.readFile
 
 def part1Solution(rawInput: String): Int =
