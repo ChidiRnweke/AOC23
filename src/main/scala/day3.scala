@@ -6,12 +6,9 @@
 
 import utils.readFile
 import cats.parse.Numbers.{digits}
-import cats.parse.Rfc5234.{crlf, alpha}
 import cats.parse.Parser
-import cats.parse.Caret
-import cats.parse.Parser0
 
-case class Symbol(value: String, r: Int, c: Int)
+case class Symbol(value: Char, r: Int, c: Int)
 case class Nums(value: Int, adjacent: List[Symbol])
 
 object Nums:
@@ -23,14 +20,14 @@ object Nums:
   ) =
     val colRange = (col - rawValue.length() + 1 to col)
 
-    def isAdjacent(col: Int)(r: Int, c: Int) =
+    def isAdjacent(col: Int)(r: Int, c: Int): Boolean =
       (row == r && math.abs(col - c) == 1)
         || (col == c && math.abs(row - r) == 1)
 
-    def isAdjacentAny(r: Int, c: Int) =
+    def isAdjacentAny(r: Int, c: Int): Boolean =
       colRange.exists(isAdjacent(_)(r, c))
 
-    val isDiagonal = (r: Int, c: Int) =>
+    def isDiagonal(r: Int, c: Int): Boolean =
       colRange.exists(c_ => math.abs(c - c_) == 1 && math.abs(row - r) == 1)
 
     val h = symbols.filter { case Symbol(_, r, c) => isAdjacentAny(r, c) }
@@ -52,9 +49,8 @@ object ParseInput:
   private val dots = Parser.char('.').rep
   private val newLine = Parser.char('\n')
   private val dotsDigitsOrNewline = (dots | digits | newLine).rep0
-
-  private val symbol =
-    Parser.anyChar.filter(c => !c.isDigit && c != '.' && c != '\n').string
+  private val symbolPattern = (c: Char) => !c.isDigit && c != '.' && c != '\n'
+  private val symbol = Parser.anyChar.filter(symbolPattern)
 
   val symbols = (symbol ~ Parser.caret).surroundedBy(dotsDigitsOrNewline).rep0
 
