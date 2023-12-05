@@ -1,3 +1,4 @@
+// scala-cli directives
 //> using resourceDir ../resources
 //> using file utils/utilities.scala
 //> using dep org.typelevel::cats-parse::1.0.0
@@ -49,6 +50,7 @@ def duplicateCards(seen: Map[Int, Int], cards: (Match, Int)): Map[Int, Int] =
   val parsed = ParseInput.parseGame
     .parseAll(input)
     .getOrElse(throw new Exception("Parsing failed"))
+    .toList
 
   val solution1 = parsed.map(_.points).sum
 
